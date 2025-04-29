@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from datetime import datetime, timedelta
 import csv
 import os
@@ -97,7 +97,9 @@ def mensagem():
             os.remove(CSV_FILE)
         resposta = "Todos os registros foram apagados."
 
-    return f"<Response><Message>{resposta}</Message></Response>"
+    xml_response = f"<Response><Message>{resposta}</Message></Response>"
+    return Response(xml_response, status=200, mimetype="application/xml")
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
