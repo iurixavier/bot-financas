@@ -93,13 +93,4 @@ def mensagem():
         resposta = f"💰 Total registrado: R$ {total:.2f}"
 
     elif "resetar" in texto:
-        if os.path.exists(CSV_FILE):
-            os.remove(CSV_FILE)
-        resposta = "Todos os registros foram apagados."
-
-    return f"<Response><Message>{resposta}</Message></Response>"
-
-# 🔁 Substituído o app.run padrão por este:
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+        if os.path.exists(CSV_FILE_
