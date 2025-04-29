@@ -1,0 +1,37 @@
+from flask import Flask, request
+from twilio.twiml.messaging_response import MessagingResponse
+
+app = Flask(__name__)
+
+# Simples controle financeiro na memória
+registro = []
+
+@app.route("/mensagem", methods=['POST'])
+def mensagem():
+    mensagem_recebida = request.form.get('Body')
+    resposta = MessagingResponse()
+
+    if mensagem_recebida.lower().startswith("gastei"):
+        try:
+            valor = float(mensagem_recebida.split(" ")[1])
+            registro.append(valor)
+            resposta.message(f"✅ Gastos registrados: R${sum(registro):.2f}")
+        except:
+            resposta.message("⚠️ Envie no formato: *Gastei 20.50*")
+    elif mensagem_recebida.lower() == "total":
+        resposta.message(f"💰 Total gasto até agora: R${sum(registro):.2f}")
+    elif mensagem_recebida.lower() == "resetar":
+        registro.clear()
+        resposta.message("🧹 Registros apagados com sucesso!")
+    else:
+        resposta.message(
+            "🤖 Bot financeiro:\n"
+            "• *Gastei 10.00* para registrar um gasto\n"
+            "• *Total* para ver o quanto você já gastou\n"
+            "• *Resetar* para apagar os registros"
+        )
+
+    return str(resposta)
+
+if __name__ == "__main__":
+    app.run(debug=True)
