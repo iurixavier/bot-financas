@@ -101,8 +101,9 @@ def mensagem():
     return Response(xml_response, status=200, mimetype="application/xml")
 
 
+import os
+
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))  # Render usa essa variável
     app.run(host="0.0.0.0", port=port)
 
